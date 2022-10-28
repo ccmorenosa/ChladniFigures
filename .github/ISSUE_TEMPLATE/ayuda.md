@@ -10,3 +10,7 @@ assignees: ''
 ## Descripción
 
 Describir la ayuda que se esta solicitando
+
+## Dead Line
+
+Fecha de entrega: DD/MM/AAAA

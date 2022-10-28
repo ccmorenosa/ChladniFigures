@@ -17,4 +17,8 @@ Describir la tarea
 
 ## Links y documentación relevante
 
-* [!Links a la documentación](dirección a la que dirije)
+* [!Links a la documentación](dirección a la que dirige)
+
+## Dead Line
+
+Fecha de entrega: DD/MM/AAAA

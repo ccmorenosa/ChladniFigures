@@ -9,7 +9,7 @@ assignees: ''
 
 ## Descripción
 
-Drescribir que documentación está haciendo falta, esto incluye documentación dentro del código
+Describir que documentación está haciendo falta, esto incluye documentación dentro del código
 
 ## Responsables
 
@@ -18,3 +18,7 @@ Drescribir que documentación está haciendo falta, esto incluye documentación 
 ## Archivos
 
 Indicar que archivos necesitan mejorar o crear documentación
+
+## Dead Line
+
+Fecha de entrega: DD/MM/AAAA

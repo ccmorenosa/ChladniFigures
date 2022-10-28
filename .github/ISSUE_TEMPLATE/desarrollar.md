@@ -15,10 +15,14 @@ Describir la nueva funcionalidad o sección que se desarrollará
 
 * Lista de responsables
 
-## Sujerencias
+## Sugerencias
 
 Describir sugerencias respecto al código, el estilo, la organización o ubicación para esta nueva funcionalidad
 
 ## Herramientas y utilidades
 
 Que herramientas se sugieren para desarrollar esta funcionalidad. Agregar links a la documentación de ser posible
+
+## Dead Line
+
+Fecha de entrega: DD/MM/AAAA

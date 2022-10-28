@@ -18,3 +18,7 @@ Describir que se desea probar y como
 ## Paso a paso
 
 * Lista de pasos para utilizar la funcionalidad
+
+## Dead Line
+
+Fecha de entrega: DD/MM/AAAA
