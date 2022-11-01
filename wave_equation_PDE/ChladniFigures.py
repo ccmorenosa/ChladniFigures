@@ -47,7 +47,7 @@ class System(object):
 
     def __init__(
         self, c, gamma, source,
-        t_max=3, theta=0.5,
+        t_max=1, theta=0.5,
         domain_side=400
     ):
         """Construct the object."""
@@ -65,7 +65,7 @@ class System(object):
         # Time evolution parameters.
         self.t_max = t_max
         self.dt = 1 / 1000000
-        self.n_steps = int(self.t_max / self.dt)
+        self.n_steps = self.t_max // self.dt
 
         # Create the domain.
         self.domain_side = domain_side
