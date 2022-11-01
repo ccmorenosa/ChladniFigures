@@ -130,3 +130,10 @@ dmypy.json
 
 # VS Code configuration.
 .vscode
+
+# Video viles.
+*.mp4
+*.avi
+
+# Data files.
+*.xdmf
