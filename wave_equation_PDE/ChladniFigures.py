@@ -1,16 +1,16 @@
 """Base script to solve the forced wave equation."""
 import cv2
 import numpy as np
+import pyvista
 import ufl
 from dolfinx import fem, io, mesh, plot
 from dolfinx.fem import FunctionSpace
 from mpi4py import MPI
-import pyvista
 from petsc4py import PETSc
 from ufl import dx
 
 
-class ChladniFiguresPDE(object):
+class System(object):
     """
     Define all the system parameters and equation for the Chladni Figures.
 
@@ -372,19 +372,3 @@ class ChladniFiguresPDE(object):
         print()
         self.video.release()
         cv2.destroyAllWindows()
-
-
-if __name__ == "__main__":
-
-    def source_func(t):
-        """Test function."""
-        # w = t/120 * 1600 + 100
-        return np.sin(3500 * t * 2 * np.pi)
-
-    cf_PDE = ChladniFiguresPDE(5000, 100, source_func, t_max=0.1)
-
-    cf_PDE.create_video_output("w_testHz_6.avi")
-    # cf_PDE.create_xdmf_output("w_450Hz.xdmf")
-
-    cf_PDE.set_initial_conditions()
-    cf_PDE.solve()
