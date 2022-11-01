@@ -7,6 +7,8 @@ from sympy import lambdify, sympify
 
 from wave_equation_PDE import System
 
+from sources import sources_functions
+
 # Create the parser for the console arguments.
 parser = argparse.ArgumentParser(
     prog="simulator.py",
@@ -31,14 +33,19 @@ system_parser.add_argument(
 
 # Add argument for the source function.
 system_parser.add_argument(
-    "-so",  "--source_exp", type=str, default="sin(w * t)",
-    help="Set the source function. Default: 'sin(w * t)."
+    "-so",  "--source_exp", type=str, default=["sine"], nargs="+",
+    help="""Set the source functions. It must be a list of the following
+options, 'sine', 'square', 'triangular', 'sawtooth' or an expression in terms
+of t and w like 'sin(w*t*t + t)'. source_exp and frequency_exp must be the same
+size. Default: ['sine']."""
 )
 
 # Add argument for the source function.
 system_parser.add_argument(
-    "-w",  "--frequency_exp", type=str, default="350",
-    help="Set the frequency function. Default: '350'"
+    "-w",  "--frequency_exp", type=str, default=["350"], nargs="+",
+    help="""Set the frequency functions. It must be a list of expressions in
+terms of t like '350 + 100 * t'. source_exp and frequency_exp must be the same
+size. Default: ['350']"""
 )
 
 # Add parser for the simulation parameters.
@@ -67,17 +74,25 @@ simulation_parser.add_argument(
 args = parser.parse_args()
 
 # Get source function.
-source_exp = sympify(args.source_exp)
-source_w_func = lambdify(["t", "w"], source_exp, "numpy")
+source_w_funcs = []
+w_funcs = []
 
-# Get frequency function.
-w_exp = sympify(args.frequency_exp)
-w_func = lambdify(["w"], w_exp, "numpy")
+for src_exp, w_exp in zip(args.source_exp, args.frequency_exp):
+    if src_exp in sources_functions:
+        source_w_funcs.append(sources_functions[src_exp])
+    else:
+        source_w_funcs.append(lambdify(["t", "w"], sympify(src_exp), "numpy"))
+
+    w_funcs.append(lambdify(["t"], sympify(w_exp), "numpy"))
 
 
 def source_func(t):
     """Force the system with the given function."""
-    return source_w_func(t * 2 * np.pi, w_func(t * 2 * np.pi))
+    src_val = 0
+    for source_w_func, w_func in zip(source_w_funcs, w_funcs):
+        src_val += source_w_func(t * 2 * np.pi, w_func(t * 2 * np.pi))
+
+    return src_val
 
 
 # Create the system object.

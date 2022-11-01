@@ -1,4 +1,4 @@
-"""Base script to solve the forced wave equation."""
+"""Define the object to simulate a square plate with a source in the middle."""
 import cv2
 import numpy as np
 import pyvista
