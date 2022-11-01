@@ -2,9 +2,10 @@
 """Main file of the project."""
 import argparse
 
-from wave_equation_PDE.ChladniFigures import System
 import numpy as np
 from sympy import lambdify, sympify
+
+from wave_equation_PDE import System
 
 # Create the parser for the console arguments.
 parser = argparse.ArgumentParser(
