@@ -250,6 +250,10 @@ class System(object):
         self.v_n.interpolate(v_0)
         self.v_h.interpolate(v_0)
 
+    def norm_pixel(self, x):
+        """Normalize the pixel value."""
+        return 1 / (1 + np.exp(-x)) - 0.5
+
     def draw_text(
         self, img, text,
         font=cv2.FONT_HERSHEY_PLAIN,
@@ -353,11 +357,10 @@ class System(object):
             if self.video is not None:
                 image = np.zeros((self.domain_side+1)**2)
 
-                max_u_h = np.max(self.u_h.x.array.real)
-                min_u_h = np.min(self.u_h.x.array.real)
-
                 for index, val in zip(self.index_order, self.u_h.x.array.real):
-                    image[index] = 255 * (val - min_u_h) / (max_u_h - min_u_h)
+                    image[index] = self.norm_pixel(val)
+
+                image = 127.5 * (image / np.max(np.abs(image)) + 1.0)
 
                 image = cv2.applyColorMap(
                     np.uint8(np.reshape(
