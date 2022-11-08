@@ -250,6 +250,36 @@ class System(object):
         self.v_n.interpolate(v_0)
         self.v_h.interpolate(v_0)
 
+    def draw_text(
+        self, img, text,
+        font=cv2.FONT_HERSHEY_PLAIN,
+        pos=(0, 0),
+        font_scale=3,
+        text_color_bg=(255, 255, 255),
+        text_color=(0, 0, 0)
+    ):
+        """Draw text in the image."""
+        # Get position.
+        x, y = pos
+
+        # Get text size.
+        text_size, _ = cv2.getTextSize(text, font, font_scale, 1)
+        text_w, text_h = text_size
+
+        # Draw background and text.
+        cv2.rectangle(
+            img,
+            (x - 5, y - 5),
+            (x + text_w + 5, y + text_h + 5),
+            text_color_bg, -1
+        )
+        cv2.putText(
+            img, text, (x, y + text_h + font_scale - 1),
+            font, font_scale, text_color, 1
+        )
+
+        return img
+
     def solve(self, show_interval=None):
         """Solve the system."""
         i = 0
@@ -345,24 +375,21 @@ class System(object):
                     for i in range(len(self.w_funcs))
                 ])
 
-                image[:70, :150] = 255
-                image[:25, :(len(w_str)//15 + 1) * 130 + 20] = 255
-
-                image = cv2.putText(
-                    image, w_str, (20, 20),
-                    cv2.FONT_HERSHEY_PLAIN, 0.85, 0
+                image = self.draw_text(
+                    image, w_str, pos=(20, 20),
+                    font=cv2.FONT_HERSHEY_PLAIN, font_scale=1
                 )
-                image = cv2.putText(
-                    image, f"t = {t:.6f}s", (20, 35),
-                    cv2.FONT_HERSHEY_PLAIN, 1, 0
+                image = self.draw_text(
+                    image, f"t = {t:.6f}s", pos=(20, 40),
+                    font=cv2.FONT_HERSHEY_PLAIN, font_scale=1
                 )
-                image = cv2.putText(
-                    image, f"v = {self.c}m/s", (20, 50),
-                    cv2.FONT_HERSHEY_PLAIN, 1, 0
+                image = self.draw_text(
+                    image, f"v = {self.c}m/s", pos=(20, 60),
+                    font=cv2.FONT_HERSHEY_PLAIN, font_scale=1
                 )
-                image = cv2.putText(
-                    image, f"g = {self.gamma}/s", (20, 65),
-                    cv2.FONT_HERSHEY_PLAIN, 1, 0
+                image = self.draw_text(
+                    image, f"g = {self.gamma}/s", pos=(20, 80),
+                    font=cv2.FONT_HERSHEY_PLAIN, font_scale=1
                 )
 
                 self.video.write(image)
