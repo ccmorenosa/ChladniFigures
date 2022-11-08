@@ -55,6 +55,9 @@ class System(object):
         # Define source parameters.
         self.source = source
 
+        # Frequencies of the sources.
+        self.w_funcs = kwargs.get("w_funcs", [lambda w: np.nan])
+
         # Define system parameters.
         self.c = c
         self.c2 = c**2
@@ -335,6 +338,31 @@ class System(object):
 
                 image = cv2.resize(
                     image, (720, 720), interpolation=cv2.INTER_AREA
+                )
+
+                w_str = ", ".join([
+                    f"w_{i+1} = {self.w_funcs[i](t):.2f}Hz"
+                    for i in range(len(self.w_funcs))
+                ])
+
+                image[:70, :150] = 255
+                image[:25, :(len(w_str)//15 + 1) * 130 + 20] = 255
+
+                image = cv2.putText(
+                    image, w_str, (20, 20),
+                    cv2.FONT_HERSHEY_PLAIN, 0.85, 0
+                )
+                image = cv2.putText(
+                    image, f"t = {t:.6f}s", (20, 35),
+                    cv2.FONT_HERSHEY_PLAIN, 1, 0
+                )
+                image = cv2.putText(
+                    image, f"v = {self.c}m/s", (20, 50),
+                    cv2.FONT_HERSHEY_PLAIN, 1, 0
+                )
+                image = cv2.putText(
+                    image, f"g = {self.gamma}/s", (20, 65),
+                    cv2.FONT_HERSHEY_PLAIN, 1, 0
                 )
 
                 self.video.write(image)
