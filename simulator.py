@@ -51,6 +51,12 @@ size. Default: ['350']"""
 # Add parser for the simulation parameters.
 simulation_parser = parser.add_argument_group("Simulation Parameters")
 
+# Add argument for the time step.
+simulation_parser.add_argument(
+    "-dt",  "--delta_t", type=float, default=1e-5,
+    help="Set the time step of the simulation. Default: 1e-5."
+)
+
 # Add argument output video.
 simulation_parser.add_argument(
     "-ov",  "--output_video", type=str,
@@ -97,7 +103,8 @@ def source_func(t):
 
 # Create the system object.
 chladni_figures_system = System(
-    args.speed_sound, args.gamma, source_func, args.t_max, args.theta
+    args.speed_sound, args.gamma, source_func,
+    args.t_max, args.delta_t, args.theta, w_funcs=w_funcs
 )
 
 # Add video output if any.

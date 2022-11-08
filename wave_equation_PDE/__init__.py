@@ -47,8 +47,9 @@ class System(object):
 
     def __init__(
         self, c, gamma, source,
-        t_max=1, theta=0.5,
-        domain_side=400
+        t_max=1, dt=1e-5, theta=0.5,
+        domain_side=400,
+        **kwargs
     ):
         """Construct the object."""
         # Define source parameters.
@@ -64,7 +65,7 @@ class System(object):
 
         # Time evolution parameters.
         self.t_max = t_max
-        self.dt = 1 / 1000000
+        self.dt = dt
         self.n_steps = self.t_max // self.dt
 
         # Create the domain.
