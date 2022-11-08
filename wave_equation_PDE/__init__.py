@@ -337,6 +337,9 @@ class System(object):
                 )
 
                 self.video.write(image)
+                cv2.imshow('image window', image)
+                # add wait key. window waits until user presses a key
+                cv2.waitKey(1)
 
             self.u_n.x.array[:] = self.u_h.x.array
             self.v_n.x.array[:] = self.v_h.x.array
