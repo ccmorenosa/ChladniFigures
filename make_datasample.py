@@ -1,6 +1,5 @@
 """Make the data sample for the Chladni Figures simulation."""
 import argparse
-from multiprocessing import Pool, cpu_count
 
 import numpy as np
 from sympy import lambdify, sympify
@@ -58,12 +57,6 @@ simulation_parser.add_argument(
 # Parse arguments.
 args = parser.parse_args()
 
-# Create list for the simulation threads
-threads = []
-
-# Create the pool of processes.
-pool = Pool(processes=int(cpu_count()))
-
 for w in range(300, 500, 5):
     # Get source function.
     source_w_funcs = []
@@ -98,15 +91,12 @@ for w in range(300, 500, 5):
     )
 
     # Add video output if any.
-    if args.output_video is not None:
-        chladni_figures_system.create_video_output(args.output_video)
+    chladni_figures_system.create_video_output(
+        f"videos/w_{w}Hz_Al_NoDamp_{args.gamma:0f}_dt_{1/w / 100:.2e}.avi"
+    )
 
     # Set the initial conditions of the system.
     chladni_figures_system.set_initial_conditions()
 
     # Add solve thread of the differential equations.
-    threads.append(pool.apply_async(chladni_figures_system))
-
-# Collect threads.
-for thread in threads:
-    thread.get(timeout=-1)
+    chladni_figures_system.solve()
