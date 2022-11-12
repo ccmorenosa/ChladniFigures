@@ -27,8 +27,8 @@ system_parser.add_argument(
 
 # Add argument for the speed of sound in the material.
 system_parser.add_argument(
-    "-s",  "--speed_sound", type=float, default=5000,
-    help="Set the speed of sound in the plate. Default: 5000."
+    "-s",  "--speed_sound", type=float, default=246.667,
+    help="Set the speed of sound in the plate. Default: 246.667."
 )
 
 # Add argument for the source function.
