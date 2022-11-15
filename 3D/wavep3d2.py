@@ -1,7 +1,7 @@
 from dolfin import *
 import matplotlib.pyplot as plt
 import numpy as np
-c=150
+c=200
 P0=Point(-2.0,-2.0)
 P1=Point(2.0,2.0)
 mesh = RectangleMesh(P0,P1,150,150)
@@ -21,7 +21,16 @@ v = TestFunction(V)
 a = u*v*dx + dt*dt*c*c*inner(grad(u), grad(v))*dx
 L = 2*u1*v*dx-u0*v*dx
 
-bc = DirichletBC(V, 0, "on_boundary")
+
+def GammaD(x, on_boundary):
+    r2=x[0]**2+x[1]**2
+    if np.abs(r2-4)<0.1:
+        return True
+    else:
+        return False 
+
+
+bc = DirichletBC(V, 0, GammaD)
 A, b = assemble_system(a, L, bc)
 
 u=Function(V)
@@ -50,6 +59,11 @@ while t <= T:
     fig = plt.figure()
     ax = plt.axes(projection='3d')
     ax.set_zlim(-0.8,0.8)
+    #curva
+    tt=np.linspace(0,2*np.pi,100)
+    xx=2*np.cos(tt)
+    yy=2*np.sin(tt)
+    ax.plot(xx, yy,color="black")
     ax.plot_surface(X, Y, Z, rstride=1, cstride=1,
                 cmap='viridis', edgecolor='none')
     solve(A, u.vector(), b)
